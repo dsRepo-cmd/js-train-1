@@ -19,7 +19,7 @@ function calculateSum(n) {
   // Додати поточне значення i до змінної sum
   // Повернути значення змінної sum
   let sum = 0;
-  for (let i = 0; i <= n; i++) {
+  for (let i = 1; i <= n; i++) {
     sum += i;
   }
   return sum;
@@ -42,12 +42,11 @@ function isPrimeNumber(num) {
     return false;
   }
 
-  for (let i = 2; i < num; i++) {
+  for (let i = 2; i < num - 1; i++) {
     if (num % i === 0) {
       return false;
     }
   }
-
   return true;
 }
 
@@ -262,9 +261,9 @@ console.log("multiply(5, 3)", multiply(5, 3)); // Виведе: 15
 // Задача 14: Задача: створити каріровану функцію `divide`, яка може бути викликана як `divide(x)(y)`, щоб отримати результат ділення `x` на `y`.
 
 function divide(x) {
-  return (y) => x / y;
   // Повертаємо нову функцію, яка приймає `y`
   // Ділимо `x` на `y` і повертаємо результат
+  return (y) => x / y;
 }
 
 // Створюємо змінну getDivider якій присвоємо результат виконання функції divide з аргументом 2
@@ -289,19 +288,21 @@ function memoizedArea() {
   // prevSide присвоюємо сторону квадрата
   // prevResult просвоюємо площу квадрата
   // Повертаємо площу
-  let prevArg = null;
+
+  let prevSide = null;
   let prevResult = null;
 
-  return (side) => {
-    if (side === prevArg) {
-      console.log(`Fetching from cache`);
+  return function (side) {
+    if (prevSide === side) {
+      console.log("Fetching from cache");
       return prevResult;
+    } else {
+      console.log("Calculating result");
+      const result = side * side;
+      prevSide = side;
+      prevResult = result;
+      return result;
     }
-    const result = side * side;
-    prevArg = side;
-    prevResult = result;
-    console.log(`Calculating result`);
-    return result;
   };
 }
 
